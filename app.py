@@ -6,8 +6,8 @@ from google import genai
 
 app = Flask(__name__)
 
-# Load API key from environment variable
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+# Load API key from environment variable (supports both naming conventions)
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
 
 HTML_PAGE = """
 <!DOCTYPE html>
@@ -166,7 +166,7 @@ def generate():
     try:
         client = genai.Client(api_key=GEMINI_API_KEY)
         response = client.models.generate_content(
-            model="gemini-2.5-flash-preview-05-20",
+            model="gemini-3.1-flash-image-preview",
             contents=[prompt],
             config=genai.types.GenerateContentConfig(
                 response_modalities=["IMAGE", "TEXT"],
